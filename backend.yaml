@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-be-ss
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: backend
+      app: sumapp
+  template:
+    metadata:
+      labels: 
+        tier: backend
+        app: sumapp
+    spec:
+      containers:
+      - name: backend
+        image: sumayya2100/ss-app-be:v0.0.01
+        ports:
+        - containerPort: 8080
+          name: tcp
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-be
+spec:
+  selector:
+    tier: backend
+    app: sumapp
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
